@@ -66,10 +66,7 @@ class Exchange
      */
     private $key = null;
 
-    /**
-     * @param $guzzle Guzzle client
-     */
-    public function __construct(GuzzleClient $guzzle = null)
+    public function __construct(?GuzzleClient $guzzle = null)
     {
         if (isset($guzzle)) {
             $this->guzzle = $guzzle;
