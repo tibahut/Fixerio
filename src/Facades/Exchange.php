@@ -1,19 +1,19 @@
 <?php
 
-namespace Fadion\Fixerio\Facades;
+namespace tibahut\Fixerio\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Fadion\Fixerio\Exchange
+ * @see \tibahut\Fixerio\Exchange
  */
 class Exchange extends Facade
 {
     /**
      * Get the registered name of the component.
-     *
-     * @return string
      */
-    protected static function getFacadeAccessor() { return 'exchange'; }
-
+    protected static function getFacadeAccessor(): string
+    {
+        return 'exchange';
+    }
 }

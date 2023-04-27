@@ -1,6 +1,6 @@
 <?php
 
-namespace Fadion\Fixerio;
+namespace tibahut\Fixerio;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -15,24 +15,19 @@ class ExchangeServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(Exchange::class, function ($app) {
-            return (new Exchange)->key(config("services.fixer.key"));
+            return (new Exchange())->key(config('services.fixer.key'));
         });
     }
 
     /**
      * Get the services provided by the provider.
-     *
-     * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [Exchange::class];
     }
-
 }
