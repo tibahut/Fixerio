@@ -1,69 +1,72 @@
 <?php
 
-namespace Fadion\Fixerio;
+namespace tibahut\Fixerio;
 
-use DateTime;
-use Fadion\Fixerio\Exceptions\ConnectionException;
-use Fadion\Fixerio\Exceptions\ResponseException;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\TransferException;
+use tibahut\Fixerio\Exceptions\ConnectionException;
+use tibahut\Fixerio\Exceptions\ResponseException;
 
 class Exchange
 {
     /**
-     * Guzzle client
-     * @var GuzzleHttp\Client
+     * Guzzle client.
+     *
+     * @var GuzzleClient
      */
     private $guzzle;
 
     /**
-     * URL of fixer.io
+     * URL of fixer.io.
+     *
      * @var string
      */
-    private $url = "data.fixer.io/api";
+    private $url = 'api.apilayer.com/fixer';
 
     /**
-     * Date when an historical call is made
+     * Date when an historical call is made.
+     *
      * @var string
      */
     private $date;
 
     /**
-     * Http or Https
+     * Http or Https.
+     *
      * @var string
      */
-    private $protocol = 'http';
+    private $protocol = 'https';
 
     /**
-     * Base currency
+     * Base currency.
+     *
      * @var string
      */
     private $base = 'EUR';
 
     /**
-     * List of currencies to return
+     * List of currencies to return.
+     *
      * @var array
      */
     private $symbols = [];
 
     /**
      * Holds whether the response should be
-     * an object or not
+     * an object or not.
+     *
      * @var array
      */
     private $asObject = false;
 
     /**
-     * Holds the Fixer.io API key
+     * Holds the Fixer.io API key.
      *
-     * @var null|string
+     * @var string|null
      */
     private $key = null;
 
-    /**
-     * @param $guzzle Guzzle client
-     */
-    public function __construct($guzzle = null)
+    public function __construct(?GuzzleClient $guzzle = null)
     {
         if (isset($guzzle)) {
             $this->guzzle = $guzzle;
@@ -73,11 +76,9 @@ class Exchange
     }
 
     /**
-     * Sets the protocol to https
-     *
-     * @return Exchange
+     * Sets the protocol to https if needed.
      */
-    public function secure()
+    public function secure(): Exchange
     {
         $this->protocol = 'https';
 
@@ -85,12 +86,19 @@ class Exchange
     }
 
     /**
-     * Sets the base currency
-     *
-     * @param  string $currency
-     * @return Exchange
+     * Sets the protocol to http if needed.
      */
-    public function base($currency)
+    public function unsecure(): Exchange
+    {
+        $this->protocol = 'http';
+
+        return $this;
+    }
+
+    /**
+     * Sets the base currency.
+     */
+    public function base(string $currency): Exchange
     {
         $this->base = $currency;
 
@@ -98,12 +106,9 @@ class Exchange
     }
 
     /**
-     * Sets the API key
-     *
-     * @param  string $key
-     * @return Exchange
+     * Sets the API key.
      */
-    public function key($key)
+    public function key(string $key): Exchange
     {
         $this->key = $key;
 
@@ -113,12 +118,11 @@ class Exchange
     /**
      * Sets the currencies to return.
      * Expects either a list of arguments or
-     * a single argument as array
+     * a single argument as array.
      *
-     * @param  array $currencies
-     * @return Exchange
+     * @param array $currencies
      */
-    public function symbols($currencies = null)
+    public function symbols($currencies = null): Exchange
     {
         if (func_num_args() and !is_array(func_get_args()[0])) {
             $currencies = func_get_args();
@@ -132,12 +136,9 @@ class Exchange
     /**
      * Defines that the api call should be
      * historical, meaning it will return rates
-     * for any day since the selected date
-     *
-     * @param  string $date
-     * @return Exchange
+     * for any day since the selected date.
      */
-    public function historical($date)
+    public function historical(string $date): Exchange
     {
         $this->date = date('Y-m-d', strtotime($date));
 
@@ -145,11 +146,9 @@ class Exchange
     }
 
     /**
-     * Returns the correctly formatted url
-     *
-     * @return string
+     * Returns the correctly formatted url.
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->buildUrl($this->url);
     }
@@ -158,9 +157,10 @@ class Exchange
      * Makes the request and returns the response
      * with the rates.
      *
-     * @throws ConnectionException if the request is incorrect or times out
-     * @throws ResponseException if the response is malformed
      * @return array
+     *
+     * @throws ConnectionException if the request is incorrect or times out
+     * @throws ResponseException   if the response is malformed
      */
     public function get()
     {
@@ -173,18 +173,19 @@ class Exchange
         }
         // The client needs to know only one exception, no
         // matter what exception is thrown by Guzzle
-         catch (TransferException $e) {
+        catch (TransferException $e) {
             throw new ConnectionException($e->getMessage());
         }
     }
 
     /**
      * Makes the request and returns the response
-     * with the rates, as a Result object
+     * with the rates, as a Result object.
+     *
+     * @return Result
      *
      * @throws ConnectionException if the request is incorrect or times out
-     * @throws ResponseException if the response is malformed
-     * @return Result
+     * @throws ResponseException   if the response is malformed
      */
     public function getResult()
     {
@@ -197,7 +198,7 @@ class Exchange
         }
         // The client needs to know only one exception, no
         // matter what exception is thrown by Guzzle
-         catch (TransferException $e) {
+        catch (TransferException $e) {
             throw new ConnectionException($e->getMessage());
         }
     }
@@ -206,9 +207,10 @@ class Exchange
      * Alias of get() but returns an object
      * response.
      *
-     * @throws ConnectionException if the request is incorrect or times out
-     * @throws ResponseException if the response is malformed
      * @return object
+     *
+     * @throws ConnectionException if the request is incorrect or times out
+     * @throws ResponseException   if the response is malformed
      */
     public function getAsObject()
     {
@@ -218,14 +220,11 @@ class Exchange
     }
 
     /**
-     * Forms the correct url from the different parts
-     *
-     * @param  string $url
-     * @return string
+     * Forms the correct url from the different parts.
      */
-    private function buildUrl($url)
+    private function buildUrl(string $url): string
     {
-        $url = $this->protocol . '://' . $url . '/';
+        $url = $this->protocol.'://'.$url.'/';
 
         if ($this->date) {
             $url .= $this->date;
@@ -233,46 +232,44 @@ class Exchange
             $url .= 'latest';
         }
 
-        $url .= '?base=' . $this->base;
-
-        if ($this->key) {
-            $url .= '&access_key=' . $this->key;
-        }
+        $url .= '?base='.$this->base;
 
         if ($symbols = $this->symbols) {
-            $url .= '&symbols=' . implode(',', $symbols);
+            $url .= '&symbols='.implode(',', $symbols);
         }
 
         return $url;
     }
 
     /**
-     * Makes the http request
-     *
-     * @param  string $url
-     * @return string
+     * Makes the http request.
      */
-    private function makeRequest($url)
+    private function makeRequest(string $url): string
     {
-        $response = $this->guzzle->request('GET', $url);
+        $response = $this->guzzle->request('GET', $url, [
+            'headers' => [
+                'Content-Type' => 'text/plain',
+                'apikey' => $this->key,
+            ],
+        ]);
 
         return $response->getBody();
     }
 
     /**
-     * @param  string $body
-     * @throws ResponseException if the response is malformed
      * @return array|\stdClass
+     *
+     * @throws ResponseException if the response is malformed
      */
-    private function prepareResponse($body)
+    private function prepareResponse(string $body)
     {
         $response = json_decode($body, true);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             throw new ResponseException(json_last_error_msg());
         }
 
-        if ($response['success'] === false) {
+        if (false === $response['success']) {
             throw new ResponseException($response['error']['info'], $response['error']['code']);
         }
 
@@ -288,32 +285,33 @@ class Exchange
     }
 
     /**
-     * @param  string $body
      * @throws ResponseException if the response is malformed
-     * @return Result
      */
-    private function prepareResponseResult($body)
+    private function prepareResponseResult(string $body): Result
     {
         $response = json_decode($body, true);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             throw new ResponseException(json_last_error_msg());
         }
 
-        if ($response['success'] === false) {
+        if (false === $response['success']) {
             throw new ResponseException($response['error']['info'], $response['error']['code']);
         }
 
-        if (isset($response['rates']) and is_array($response['rates'])
-            and isset($response['base']) and isset($response['date'])) {
+        if (
+            isset($response['rates'])
+            and is_array($response['rates'])
+            and isset($response['base'])
+            and isset($response['date'])
+        ) {
             return new Result(
                 $response['base'],
-                new DateTime($response['date']),
+                new \DateTime($response['date']),
                 $response['rates']
             );
         }
 
         throw new ResponseException('Response body is malformed.');
     }
-
 }

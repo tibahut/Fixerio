@@ -1,87 +1,73 @@
 <?php
 
-namespace Fadion\Fixerio;
-
-use DateTime;
+namespace tibahut\Fixerio;
 
 class Result
 {
     /**
-     * The Base currency the result was returned in
+     * The Base currency the result was returned in.
+     *
      * @var string
      */
     private $base;
 
     /**
-     * The date the result was generated
-     * @var DateTime
+     * The date the result was generated.
+     *
+     * @var \DateTime
      */
     private $date;
 
     /**
-     * All of the rates returned
+     * All of the rates returned.
+     *
      * @var array
      */
     private $rates;
 
     /**
      * Result constructor.
-     *
-     * @param string $base
-     * @param DateTime $date
-     * @param array $rates
      */
-    public function __construct($base, DateTime $date, $rates)
+    public function __construct(string $base, \DateTime $date, array $rates)
     {
         $this->base = $base;
         $this->date = $date;
         $this->rates = $rates;
     }
 
-    /**
-     * @return string
-     */
-    public function getBase()
+    public function getBase(): string
     {
         return $this->base;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getDate()
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
 
-    /**
-     * @return array
-     */
-    public function getRates()
+    public function getRates(): array
     {
         return $this->rates;
     }
 
     /**
      * Get an individual rate by Currency code
-     * Will return null if currency is not found in the result
-     *
-     * @param string $code
-     * @return float|null
+     * Will return null if currency is not found in the result.
      */
-    public function getRate($code)
+    public function getRate(string $code): ?float
     {
         // the result won't have the base code in it,
         // because that would always be 1. But to make
         // dynamic code easier this prevents null if
         // the base code is asked for
-        if ($code == $this->getBase()) {
+        if ($code === $this->getBase()) {
             return 1.0;
         }
 
-        if (isset($this->rates[$code])) {
+        if (!empty($this->rates[$code])) {
             return $this->rates[$code];
         }
+
         return null;
     }
 }

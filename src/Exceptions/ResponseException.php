@@ -1,7 +1,7 @@
 <?php
 
-namespace Fadion\Fixerio\Exceptions;
+namespace tibahut\Fixerio\Exceptions;
 
-use Exception;
-
-class ResponseException extends Exception {}
+class ResponseException extends \Exception
+{
+}

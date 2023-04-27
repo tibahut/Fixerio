@@ -1,7 +1,7 @@
 <?php
 
-namespace Fadion\Fixerio\Exceptions;
+namespace tibahut\Fixerio\Exceptions;
 
-use Exception;
-
-class ConnectionException extends Exception {}
+class ConnectionException extends \Exception
+{
+}

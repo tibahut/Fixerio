@@ -1,14 +1,14 @@
 <?php
 
-use Fadion\Fixerio\Currency;
 use Mockery as m;
-use Fadion\Fixerio\Exchange;
+use tibahut\Fixerio\Currency;
+use tibahut\Fixerio\Exchange;
 
 class ExchangeTest extends PHPUnit_Framework_TestCase
 {
-    private $url = 'http://data.fixer.io/api';
+    private $url = 'https://api.apilayer.com/fixer';
 
-    private static $errorResponse =  [
+    private static $errorResponse = [
         'success' => false,
         'error' => [
             'code' => 999,
@@ -22,7 +22,7 @@ class ExchangeTest extends PHPUnit_Framework_TestCase
         'date' => '2016-01-02',
         'rates' => [
             'GBP' => 1.01,
-            'USD' => 1.02
+            'USD' => 1.02,
         ],
     ];
 
@@ -75,6 +75,14 @@ class ExchangeTest extends PHPUnit_Framework_TestCase
     {
         $url = (new Exchange())->secure()->getUrl();
         $expected = str_replace('http', 'https', $this->url).'/latest?base=EUR';
+
+        $this->assertEquals($url, $expected);
+    }
+
+    public function testUnsecure()
+    {
+        $url = (new Exchange())->unsecure()->getUrl();
+        $expected = str_replace('https', 'http', $this->url).'/latest?base=EUR';
 
         $this->assertEquals($url, $expected);
     }
@@ -141,13 +149,14 @@ class ExchangeTest extends PHPUnit_Framework_TestCase
         $exchange = new Exchange($client);
 
         $result = $exchange->getResult();
-        $this->assertInstanceOf('\Fadion\Fixerio\Result', $result);
+        $this->assertInstanceOf('\tibahut\Fixerio\Result', $result);
 
         $this->assertEquals(1.01, $result->getRate(Currency::GBP));
     }
 
     /**
-     * @expectedException Fadion\Fixerio\Exceptions\ResponseException
+     * @expectedException \tibahut\Fixerio\Exceptions\ResponseException
+     *
      * @expectedExceptionMessage Some error message
      */
     public function testResponseException()
@@ -164,7 +173,8 @@ class ExchangeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Fadion\Fixerio\Exceptions\ResponseException
+     * @expectedException \tibahut\Fixerio\Exceptions\ResponseException
+     *
      * @expectedExceptionMessage Some error message
      */
     public function testResponseResultException()
@@ -179,5 +189,4 @@ class ExchangeTest extends PHPUnit_Framework_TestCase
 
         $exchange->getResult();
     }
-
 }
