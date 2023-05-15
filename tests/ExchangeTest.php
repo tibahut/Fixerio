@@ -1,8 +1,8 @@
 <?php
 
 use Mockery as m;
-use tibahut\Fixerio\Currency;
-use tibahut\Fixerio\Exchange;
+use Tibahut\Fixerio\Currency;
+use Tibahut\Fixerio\Exchange;
 
 class ExchangeTest extends PHPUnit_Framework_TestCase
 {
@@ -149,13 +149,13 @@ class ExchangeTest extends PHPUnit_Framework_TestCase
         $exchange = new Exchange($client);
 
         $result = $exchange->getResult();
-        $this->assertInstanceOf('\tibahut\Fixerio\Result', $result);
+        $this->assertInstanceOf('\Tibahut\Fixerio\Result', $result);
 
         $this->assertEquals(1.01, $result->getRate(Currency::GBP));
     }
 
     /**
-     * @expectedException \tibahut\Fixerio\Exceptions\ResponseException
+     * @expectedException \Tibahut\Fixerio\Exceptions\ResponseException
      *
      * @expectedExceptionMessage Some error message
      */
@@ -173,7 +173,7 @@ class ExchangeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \tibahut\Fixerio\Exceptions\ResponseException
+     * @expectedException \Tibahut\Fixerio\Exceptions\ResponseException
      *
      * @expectedExceptionMessage Some error message
      */

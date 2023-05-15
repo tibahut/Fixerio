@@ -1,11 +1,11 @@
 <?php
 
-namespace tibahut\Fixerio\Facades;
+namespace Tibahut\Fixerio\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \tibahut\Fixerio\Exchange
+ * @see \Tibahut\Fixerio\Exchange
  */
 class Exchange extends Facade
 {

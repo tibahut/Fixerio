@@ -1,7 +1,7 @@
 <?php
 
-use tibahut\Fixerio\Currency;
-use tibahut\Fixerio\Result;
+use Tibahut\Fixerio\Currency;
+use Tibahut\Fixerio\Result;
 
 class ResultTest extends PHPUnit_Framework_TestCase
 {

@@ -2,7 +2,11 @@
     "name": "tibahut/fixerio",
     "description": "Wrapper for Fixer.io",
     "license": "MIT",
-    "keywords": ["exchange", "fixer", "laravel"],
+    "keywords": [
+        "exchange",
+        "fixer",
+        "laravel"
+    ],
     "authors": [
         {
             "name": "Thibaut PEROTIN",
@@ -19,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "tibahut\\Fixerio\\": "src"
+            "Tibahut\\Fixerio\\": "src"
         }
     },
     "minimum-stability": "stable"

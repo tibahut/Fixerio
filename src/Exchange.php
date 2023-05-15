@@ -1,11 +1,11 @@
 <?php
 
-namespace tibahut\Fixerio;
+namespace Tibahut\Fixerio;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\TransferException;
-use tibahut\Fixerio\Exceptions\ConnectionException;
-use tibahut\Fixerio\Exceptions\ResponseException;
+use Tibahut\Fixerio\Exceptions\ConnectionException;
+use Tibahut\Fixerio\Exceptions\ResponseException;
 
 class Exchange
 {

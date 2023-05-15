@@ -1,6 +1,6 @@
 <?php
 
-namespace tibahut\Fixerio;
+namespace Tibahut\Fixerio;
 
 use Illuminate\Support\ServiceProvider;
 
