@@ -1,6 +1,6 @@
 <?php
 
-namespace tibahut\Fixerio\Exceptions;
+namespace Tibahut\Fixerio\Exceptions;
 
 class ConnectionException extends \Exception
 {

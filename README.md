@@ -8,23 +8,23 @@ A thin wrapper for [Fixer.io](http://www.fixer.io), a service for foreign exchan
 ```json
 {
     "require": {
-        "fadion/fixerio": "~1.0"
+        "tibahut/fixerio": "~1.0"
     }
 }
 ```
 
 Laravel users can use the Facade for even easier access.
 
-- Add `tibahut\Fixerio\ExchangeServiceProvider::class` to your `config/app.php` file, inside the `providers` array.
-- Add a new alias: `'Exchange' => tibahut\Fixerio\Facades\Exchange::class` to your `config/app.php` file, inside the `aliases` array.
+- Add `Tibahut\Fixerio\ExchangeServiceProvider::class` to your `config/app.php` file, inside the `providers` array.
+- Add a new alias: `'Exchange' => Tibahut\Fixerio\Facades\Exchange::class` to your `config/app.php` file, inside the `aliases` array.
 
 ## Usage
 
 Let's get the rates of EUR and GBP with USD as the base currency:
 
 ```php
-use tibahut\Fixerio\Exchange;
-use tibahut\Fixerio\Currency;
+use Tibahut\Fixerio\Exchange;
+use Tibahut\Fixerio\Currency;
 
 $exchange = new Exchange();
 $exchange->key("YOUR_ACCESS_KEY");
@@ -117,9 +117,9 @@ $usd = $result->getRate(Currency::USD); // Will return null if there was no valu
 To handle errors, the package provides 2 exceptions. `ConnectionException` when http requests go wrong and `ResponseException` when the returned response from the api is not as expected. An example with exception handling:
 
 ```php
-use tibahut\Fixerio\Exchange;
-use tibahut\Fixerio\Exceptions\ConnectionException;
-use tibahut\Fixerio\Exceptions\ResponseException;
+use Tibahut\Fixerio\Exchange;
+use Tibahut\Fixerio\Exceptions\ConnectionException;
+use Tibahut\Fixerio\Exceptions\ResponseException;
 
 try {
     $exchange = new Exchange();
@@ -140,7 +140,7 @@ Nothing changes for Laravel apart from the Facade. It's just a convenience for a
 
 ```php
 use Exchange;
-use tibahut\Fixerio\Currency;
+use Tibahut\Fixerio\Currency;
 
 $rates = Exchange::base(Currency::USD)->get();
 ```

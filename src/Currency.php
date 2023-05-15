@@ -1,6 +1,6 @@
 <?php
 
-namespace tibahut\Fixerio;
+namespace Tibahut\Fixerio;
 
 /**
  * A list of avaialable currencies to simplify
